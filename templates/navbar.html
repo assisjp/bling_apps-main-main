@@ -1,0 +1,58 @@
+  <body>
+    <script src="{{ url_for('static', filename='js/script_navbar.js') }}"></script>
+    <nav>
+      <div class="sidebar-header">
+        <a class="logo-wrapper">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+          <h2 class="hidden">LOGO</h2>
+        </a>
+        <button class="toggle-btn">
+          <img src="{{ url_for('static', filename='images/expand.svg') }}" alt="">
+        </button>
+      </div>
+
+      <div class="sidebar-links">
+        <a class="link active" href="/dashboard">
+          <img src="{{ url_for('static', filename='images/home.svg') }}" alt="">
+          <span class="hidden">Home</span>
+        </a>
+        <a class="link" href="/dashboard-nuvemshop">
+          <img src="{{ url_for('static', filename='images/dashboard.svg') }}" alt="">
+          <span class="hidden">Dashboard NuvemShop</span>
+        </a>
+        <a class="link">
+          <img src="{{ url_for('static', filename='images/projects.svg') }}" alt="">
+          <span class="hidden">Projetos</span>
+        </a>
+        <a class="link">
+          <img src="{{ url_for('static', filename='images/dashboard.svg') }}" alt="">
+          <span class="hidden">Dashboard</span>
+        </a>
+        </li>
+        <a class="link">
+          <img src="{{ url_for('static', filename='images/tasks.svg') }}" alt="">
+          <span class="hidden">Taréfas</span>
+        </a>
+      </div>
+
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-links">
+          <a class="link" href="configure-bling">
+            <img src="{{ url_for('static', filename='images/settings.svg') }}" alt="">
+            <span class="hidden">Contigurações</span>
+          </a>
+        </div>
+
+        <div class="user-profile">
+          <div class="user-avatar">
+            <img src="{{ url_for('static', filename='images/profile-pic.jpg') }}" alt="">
+          </div>
+          <div class="user-details hidden">
+            <p class="username">Programador</p>
+            <p class="user-email">email@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </body>

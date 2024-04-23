@@ -1,0 +1,86 @@
+.header-bar {
+    background-color: #343a40; /* Cor moderna para o cabeçalho */
+    color: white;
+    padding: 0.5rem 1rem; /* Espaçamento interno */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra mais sutil */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 5rem; /* Espaço para a navbar lateral */
+    transition: margin-left 500ms ease, width 500ms ease;
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: white; /* Cor do texto */
+    font-size: 1rem; /* Tamanho do texto ajustado */
+}
+
+.navbar-nav .nav-link {
+    margin: 0 0.5rem; /* Espaçamento entre os links */
+    display: flex;
+    align-items: center;
+}
+
+/* Ajuste do tamanho dos botões */
+.navbar-nav .btn {
+    padding: 0.375rem 0.75rem; /* Tamanho reduzido */
+    font-size: 0.875rem; /* Tamanho do texto ajustado */
+}
+
+/* Estilos do conteúdo da dashboard */
+.dashboard-container {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 5rem; /* Espaço para a navbar lateral */
+    transition: margin-left 500ms ease, width 500ms ease;
+    min-height: 100vh; /* Novo: altura mínima para cobrir a tela inteira */
+}
+
+body.active .dashboard-container {
+    margin-left: 15rem; /* Ajuste quando a navbar está expandida */
+}
+body.active .header-bar {
+    margin-left: 15rem; /* Ajuste quando a navbar está expandida */
+}
+
+.status-circle {
+    width: 10px; /* Largura do círculo */
+    height: 10px; /* Altura do círculo */
+    border-radius: 50%; /* Torna o elemento circular */
+    display: inline-block; /* Permite que o elemento seja exibido */
+}
+.status-circle.valid {
+    background-color: #28a745;
+}
+.status-circle.invalid {
+    background-color: #dc3545;
+}
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    display: none;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container, .header-bar {
+        margin-left: 0;
+        width: auto; /* Ajuste para telas pequenas */
+        padding: 10px;
+    }
+
+    .header-bar {
+        justify-content: center; /* Centraliza o cabeçalho em telas pequenas */
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

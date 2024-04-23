@@ -1,0 +1,159 @@
+{
+  "nome": "{{descricaoProd}}",
+  "codigo": "{{refPrimaria}}",
+  "preco": "{{precoVenda}}",
+  "tipo": "P",
+  "situacao": "A",
+  "formato": "V",
+  "descricaoCurta": "{{descricaoCurta}}",
+  "unidade": "un",
+  "pesoLiquido": "{{pesoProduto}}",
+  "pesoBruto": "{{pesoProduto}}",
+  "volumes": 1,
+  "itensPorCaixa": 1,
+  "gtin": "{{codigoBarrasPai}}",
+  "gtinEmbalagem": "{{codigoBarrasPai}}",
+  "tipoProducao": "P",
+  "condicao": 0,
+  "freteGratis": false,
+  "marca": "{{marca}}",
+  "categoria": {
+    "id": "{{categoriaProduto}}"
+  },
+  "estoque": {
+    "minimo": 1,
+    "maximo": 100,
+    "crossdocking": 1
+  },
+  "actionEstoque": "",
+  "dimensoes": {
+    "largura": 30,
+    "altura": 16,
+    "profundidade": 34,
+    "unidadeMedida": 1
+  },
+  "tributacao": {
+    "origem": "{{origemProduto}}",
+    "ncm": "{{ncm}}",
+    "percentualTributos": 0,
+    "valorBaseStRetencao": 0,
+    "valorStRetencao": 0,
+    "valorICMSSubstituto": 0,
+    "valorIpiFixo": 0,
+    "valorPisFixo": 0,
+    "valorCofinsFixo": 0,
+    "percentualGLP": 0,
+    "percentualGasNacional": 0,
+    "percentualGasImportado": 0,
+    "valorPartida": 0,
+    "tipoArmamento": 0,
+    "grupoProduto": {
+      "id": "{{grupoProduto}}"
+    }
+  },
+  "variacoes": [
+    {
+      "nome": "Cor:{{nomeCor}};Tamanho:{{tamanho}}",
+      "codigo": "{{referenciaSku}}",
+      "preco": "{{precoVenda}}",
+      "tipo": "P",
+      "situacao": "A",
+      "formato": "S",
+      "descricaoCurta": "{{descricaoCurta}}",
+      "unidade": "un",
+      "pesoLiquido": "{{pesoProduto}}",
+      "pesoBruto": "{{pesoProduto}}",
+      "volumes": 1,
+      "itensPorCaixa": 1,
+      "gtin": "{{codigoBarras}}",
+      "gtinEmbalagem": "{{codigoBarras}}",
+      "tipoProducao": "P",
+      "condicao": 0,
+      "freteGratis": false,
+      "marca": "{{marca}}",
+      "categoria": {
+        "id": "{{categoriaProduto}}"
+      },
+      "estoque": {
+        "minimo": 1,
+        "maximo": 100,
+        "crossdocking": 1
+      },
+      "actionEstoque": "",
+      "dimensoes": {
+        "largura": 30,
+        "altura": 16,
+        "profundidade": 34,
+        "unidadeMedida": 1
+      },
+      "tributacao": {
+        "origem": "{{origemProduto}}",
+        "ncm": "{{ncm}}",
+        "percentualTributos": 0,
+        "valorBaseStRetencao": 0,
+        "valorStRetencao": 0,
+        "valorICMSSubstituto": 0,
+        "valorIpiFixo": 0,
+        "valorPisFixo": 0,
+        "valorCofinsFixo": 0,
+        "percentualGLP": 0,
+        "percentualGasNacional": 0,
+        "percentualGasImportado": 0,
+        "valorPartida": 0,
+        "tipoArmamento": 0,
+        "grupoProduto": {
+          "id": "{{grupoProduto}}"
+        }
+      },
+      "midia": {
+              "imagens": {
+                "externas": [
+                  {
+                    "link": "{{urlImagem}}-1.jpg"
+                  },
+                  {
+                    "link": "{{urlImagem}}-2.jpg"
+                  },
+                  {
+                    "link": "{{urlImagem}}-3.jpg"
+                  },
+                  {
+                    "link": "{{urlImagem}}-4.jpg"
+                  },
+                  {
+                    "link": "{{urlImagem}}-5.jpg"
+                  },
+                  {
+                    "link": "{{urlImagem}}-6.jpg"
+                  },
+                  {
+                    "link": "{{urlImagem}}-7.jpg"
+                  },
+                  {
+                    "link": "{{urlImagem}}-8.jpg"
+                  }
+                ]
+              }
+            },
+      "estrutura": {
+        "tipoEstoque": "F",
+        "lancamentoEstoque": "A",
+        "componentes": [
+          {
+            "produto": {
+              "id": 14886673454
+            },
+            "quantidade": "{{estoqueProduto}}"
+          }
+        ]
+      },
+      "variacao": {
+        "nome": "Cor:{{nomeCor}};Tamanho:{{tamanho}}",
+        "ordem": 1,
+        "produtoPai": {
+          "cloneInfo": false
+        }
+      }
+    }
+  ]
+}

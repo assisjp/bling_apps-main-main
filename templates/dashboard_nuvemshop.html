@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Nuvemshop App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_dashboardnuvemshop.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_navbar.css') }}">
+    <script src="{{ url_for('static', filename='js/script_navbar.js') }}"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <header class="header-bar">
+        <a class="navbar-brand" href="#">NuvemShop Apps</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-light btn-login" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-danger btn-logout" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </header>
+
+    <div class="dashboard-container">
+        <h2>Nuvemshop Dashboard</h2>
+        <!-- Bloco de status do token -->
+        <div class="mb-3">
+            <h4>Status do Token Nuvemshop</h4>
+            Token válido: 
+            <span class="status-circle {{ 'valid' if token_status_nuvemshop else 'invalid' }}"></span>
+            <p>Token criado em: {{ created_at_nuvemshop }}</p>
+            <button onclick="location.href='/configure-nuvemshop'" class="btn btn-warning">Configurar Token</button>
+            <button onclick="location.href='/callback-nuvemshop'" class="btn btn-secondary">Autenticar Nuvemshop</button>
+        </div>
+        <div class="notification alert"></div>
+        <hr>
+        <!-- Botão para buscar produtos da Nuvemshop -->
+        <button onclick="fetchProductsNuvemshop()" class="btn btn-primary">Obter Produtos Nuvemshop</button>
+        <button onclick="updateMetafields()" class="btn btn-success">Atualizar Metafields</button>
+        <hr>
+        <h4>Upload de arquivo Excel para Nuvemshop</h4>
+        <input type="file" id="excelFileNuvemshop">
+        <button onclick="showParamSelectionNuvemshop()" class="btn btn-info">Próximo</button>
+        <div class="param-selection">
+            <h5>Selecione os parâmetros para enviar:</h5>
+            <!-- Lista de parâmetros -->
+            <input type="checkbox" id="nomeNuvemshop" checked disabled> Nome<br>
+            <input type="checkbox" id="codigoNuvemshop" checked disabled> Código<br>
+            <!-- ... Adicione outros campos aqui ... -->
+            <input type="checkbox" id="descricaoCurtaNuvemshop"> Descrição Curta<br>
+            <!-- ... -->
+            <button onclick="uploadExcelNuvemshop()" class="btn btn-primary">Upload</button>
+        </div>
+        <hr>
+        <div id="productsListNuvemshop"></div>
+        <div class="loader"></div> <!-- Animação de carregamento -->
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script_navbar.js') }}"></script>
+    <script>
+        function updateMetafields() {
+            showLoader(true); // Mostrar animação de carregamento
+            fetch('/update-metafields', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Adicione aqui quaisquer cabeçalhos necessários para a autenticação
+                },
+                body: JSON.stringify({/* corpo da requisição se necessário */})
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoader(false); // Esconder animação de carregamento
+                if (data.message) {
+                    showNotification(data.message, "success");
+                } else {
+                    showNotification("Erro ao atualizar metafields", "danger");
+                }
+            })
+            .catch(error => {
+                showLoader(false); // Esconder animação de carregamento
+                console.error("Error updating metafields:", error);
+                showNotification("Erro ao atualizar metafields", "danger");
+            });
+        }
+        /* Funções JavaScript para a Nuvemshop */
+        function fetchProductsNuvemshop() {
+            showLoader(true); // Mostrar animação de carregamento
+            console.log("Fetching Nuvemshop products...");
+            let params = [];
+            // Adicione mais campos conforme necessário
+
+            let url = '/productsnuvemshop';
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+
+            fetch(url, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoader(false); // Esconder animação de carregamento
+                console.log(data);
+                if (data && data.produtos) {
+                    // Aqui você pode adicionar código para exibir os produtos na página
+                    const productList = document.getElementById('productsListNuvemshop');
+                    productList.innerHTML = ''; // Limpar a lista existente
+                    data.produtos.forEach(product => {
+                        const productItem = document.createElement('div');
+                        productItem.textContent = product.descricao; // ou qualquer outro campo do produto
+                        productList.appendChild(productItem);
+                    });
+                } else if (data && data.error) {
+                    console.error("Received data:", data.error);
+                    showNotification("Erro ao buscar produtos Nuvemshop", "danger");
+                }
+            })
+            .catch(error => {
+                showLoader(false); // Esconder animação de carregamento
+        console.error("Error fetching Nuvemshop products:", error);
+        // Aqui você pode ver o erro completo
+        console.error(error.name);
+        console.error(error.message);
+        console.error(error.stack);
+        showNotification("Erro ao buscar produtos Nuvemshop", "danger");
+            });
+        }
+
+        function uploadExcelNuvemshop() {
+            let fileInput = document.getElementById('excelFileNuvemshop');
+            if (!fileInput.files.length) {
+                showNotification("Por favor, selecione um arquivo antes de fazer o upload.", "warning");
+                return;
+            }
+            showLoader(true); // Mostrar animação de carregamento
+
+            let formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            let checkboxes = document.querySelectorAll('.param-selection input[type="checkbox"]:checked');
+            checkboxes.forEach(checkbox => {
+                formData.append('params', checkbox.id);
+            });
+
+            fetch('/upload-excel-nuvemshop', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoader(false); // Esconder animação de carregamento
+                console.log(data);
+                showNotification("Produtos Nuvemshop adicionados com sucesso", "success");
+            })
+            .catch(error => {
+                showLoader(false); // Esconder animação de carregamento
+                console.error("Error uploading Nuvemshop products:", error);
+                showNotification("Erro ao adicionar produtos Nuvemshop", "danger");
+            });
+        }
+
+        function showParamSelectionNuvemshop() {
+            document.querySelector('.param-selection').style.display = 'block';
+        }
+
+        function showLoader(show) {
+            const loader = document.querySelector('.loader');
+            loader.style.display = show ? 'block' : 'none';
+        }
+
+        function showNotification(message, type) {
+            const notification = document.querySelector('.notification');
+            notification.textContent = message;
+            notification.classList.add(`alert-${type}`);
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+                notification.classList.remove(`alert-${type}`);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

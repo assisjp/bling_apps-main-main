@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configurar Nuvemshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_configureuser.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_navbar.css') }}">
+    <script src="{{ url_for('static', filename='js/script_navbar.js') }}"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="form-group-container">
+        <h2>Configurar Token Nuvemshop</h2>
+        <form action="/configure-nuvemshop" method="post">
+            <label for="client_id_nuvemshop">Client ID da Nuvemshop:</label>
+            <input type="text" name="client_id_nuvemshop" value="{{ client_id_nuvemshop }}" required>
+            <label for="client_secret_nuvemshop">Client Secret da Nuvemshop:</label>
+            <input type="text" name="client_secret_nuvemshop" value="{{ client_secret_nuvemshop }}" required>
+            <label for ="client_code_nuvemshop">Client Code da Nuvemshop:</label>
+            <input type="text" name="code_nuvemshop" value="{{ code_nuvemshop }}" required>
+            <input type="submit" value="Salvar">
+        </form>
+    </div>
+    <div class="form-container">
+        <h2>Configurar Token Bling</h2>
+        <form action="/configure-bling" method="post">
+            <label for="client_id_nuvemshop">Client ID do Bling:</label>
+            <input type="text" name="client_id_bling" value="{{ client_id_bling }}" required>
+            <label for="client_secret_nuvemshop">Client Secret do Bling:</label>
+            <input type="text" name="client_secret_bling" value="{{ client_secret_bling }}" required>
+            <input type="submit" value="Salvar">
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/script_navbar.js') }}"></script>
+</body>
+</html>

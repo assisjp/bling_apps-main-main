@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Hub Bling</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_login.css') }}">
+</head>
+<body>
+  <section class="container">
+    <!-- Seção da imagem -->
+    <div class="image-section">
+      <div class="image-wrapper">
+        <img src="{{ url_for('static', filename='images/mesh-gradient.png') }}" alt="">
+      </div>
+      <div class="content-container">
+        <h1 class="section-heading">Integrando sistemas para sua melhor<span> Perfomance.</span></h1>
+        <p class="section-paragraph">Cada passo em frente é um passo em direção ao conhecimento. Abrace a jornada.</p>
+      </div>
+    </div>
+
+    <!-- Seção do formulário -->
+    <div class="form-section">
+      <form action="{{ url_for('login') }}" method="POST" class="form-wrapper">
+        <div class="logo-container">
+          <a href="#" class="images/logo-container">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+          </a>
+        </div>
+
+        <h2>Bem vindo! 👋🏻</h2>
+        <p>Insira suas credenciais para acessar sua conta.</p>
+
+        <div class="input-container">
+          <div class="form-group">
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="username" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password">
+          </div>
+        </div>
+
+        <div class="remember-forgot">
+          <div class="remember-me">
+            <input type="checkbox" value="remember-me" id="remember-me">
+            <label for="remember-me">Lembrar</label>
+          </div>
+
+          <a href="{{ url_for('create_user') }}">Criar Conta</a>
+        </div>
+
+        <button type="submit" class="login-btn">Entrar</button>
+
+        <div class="or-divider">ou</div>
+
+        <button type="button" class="google-signin">
+          <object data="{{ url_for('static', filename='images/google.svg') }}"></object>
+          <span>Entrar com Google</span>
+        </button>
+      </form>
+    </div>
+  </section>
+</body>
+</html>

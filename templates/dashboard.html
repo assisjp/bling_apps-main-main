@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Bling App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_navbar.css') }}">
+    <script src="{{ url_for('static', filename='js/script_navbar.js') }}"></script>
+</head>
+<body>
+    {% include 'navbar.html' %} <!-- Contêiner para a navbar lateral -->
+
+    <!-- Cabeçalho substituído -->
+    <header class="header-bar">
+        <a class="navbar-brand" href="#">Bling Apps</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-light btn-login" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-danger btn-logout" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </header>
+
+    <div class="dashboard-container">
+        <h2>Bling Dashboard</h2>
+        
+        <!-- Bloco de status do token -->
+        <div class="mb-3">
+            <h4>Status do Token</h4>
+            Token válido: 
+            <span class="status-circle {{ 'valid' if token_status else 'invalid' }}"></span>
+            <p>Token criado em: {{ created_at }}</p>
+            <p>Token expira em: {{ expires_at }}</p>
+            <button onclick="location.href='/validate-token'" class="btn btn-warning">Atualizar Token</button>
+            <button onclick="location.href='/auth'" class="btn btn-secondary">Autenticar Bling</button>
+        </div>
+
+        <div class="notification alert"></div>
+        <hr>
+        <button onclick="fetchProducts()" class="btn btn-primary">Obter Produtos</button>
+        <hr>
+        <h4>Upload de arquivo Excel</h4>
+        <input type="file" id="excelFile">
+       <!-- <button onclick="showParamSelection()" class="btn btn-info">Próximo</button> -->
+        <div class="param-selection">
+          <!--  <h5>Selecione os parâmetros para enviar:</h5> -->
+            <!-- Lista de parâmetros -->
+           <!-- <input type="checkbox" id="nome" checked disabled> Nome<br>-->
+            <!--<input type="checkbox" id="codigo" checked disabled> Código<br>-->
+            <!-- ... Adicione outros campos aqui ... 
+            <input type="checkbox" id="descricaoCurta"> Descrição Curta<br>-->
+            <!-- ... -->
+            <button onclick="uploadExcel()" class="btn btn-primary">Upload</button>
+        </div>
+        <hr>
+        <button onclick="location.href='/list-products-tables'" class="btn btn-success">Baixar CSV (Meus Produtos)</button>
+        <hr>
+        <div id="productsList"></div>
+        <div class="loader"></div> <!-- Animação de carregamento -->
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script_navbar.js') }}"></script>
+    <script>
+        function fetchProducts() {
+            showLoader(true); // Mostrar animação de carregamento
+            console.log("Fetching products...");
+            let params = [];
+            // Adicione mais campos conforme necessário
+
+            let url = '/products';
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+
+            fetch(url, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                showLoader(false); // Esconder animação de carregamento
+                console.log(data);
+                if (data && data.produtos) {
+                    // Aqui você pode adicionar código para exibir os produtos na página
+                    const productList = document.getElementById('productsList');
+                    productList.innerHTML = ''; // Limpar a lista existente
+                    data.produtos.forEach(product => {
+                        const productItem = document.createElement('div');
+                        productItem.textContent = product.descricao; // ou qualquer outro campo do produto
+                        productList.appendChild(productItem);
+                    })
+                }                   
+            })
+            .catch(error => {
+                showLoader(false); // Esconder animação de carregamento
+                console.error("Error fetching products:", error);
+                showNotification("Erro ao buscar produtos. Verifique o status do Token", "danger");
+            });
+        }
+
+        function uploadExcel() {
+    let fileInput = document.getElementById('excelFile');
+    if (!fileInput.files.length) {
+        showNotification("Por favor, selecione um arquivo antes de fazer o upload.", "warning");
+        return;
+    }
+    showLoader(true); // Mostrar animação de carregamento
+
+    let formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    fetch('/upload-excel', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        showLoader(false); // Esconder animação de carregamento
+        console.log(data);
+        showNotification("Produtos adicionados com sucesso", "success");
+    })
+    .catch(error => {
+        showLoader(false); // Esconder animação de carregamento
+        console.error("Error uploading products:", error);
+        showNotification("Erro ao adicionar produtos", "danger");
+    });
+}
+
+        function showParamSelection() {
+            document.querySelector('.param-selection').style.display = 'block';
+        }
+
+        function showLoader(show) {
+            const loader = document.querySelector('.loader');
+            loader.style.display = show ? 'block' : 'none';
+        }
+
+        function showNotification(message, type) {
+            const notification = document.querySelector('.notification');
+            notification.textContent = message;
+            notification.classList.add(`alert-${type}`);
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+                notification.classList.remove(`alert-${type}`);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
